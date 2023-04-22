@@ -1,3 +1,5 @@
+//test - DELETE THIS LATER
+
 //importing react stuff
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -9,7 +11,7 @@ function Square() {
 
   //Function for handling clicks 
   function handleClick(){
-    setValue("X")  
+    setValue("X")   
   }
 
   //return JSX element
