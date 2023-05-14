@@ -1,5 +1,3 @@
-//test - DELETE THIS LATER
-
 //importing react stuff
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -18,13 +16,30 @@ export default function Board() {
   //Implementing states: this defines 'squares' as a variable that stores a state and 'setSqaures' as a function that will be used to update the state. 
   const [squares, setSquares] = useState(Array(9).fill(""));
 
+  const [xIsNext, setXIsNext] = useState(true);  
+
 
   //handleClick function which will be passed as a prop onto each square
   function handleClick(i){
-    const nextSquares = squares.slice();  //use javascript syntax to make a copy of the 'squares' state variable
-    nextSquares[i] = "X";                 //modify value of the ith square
-    setSquares(nextSquares);              //update the state variable
-  }
+    //only want to handle click if the ith square doesn't already have a value (i.e if its value is "")
+    if(squares[i] == ""){
+      //use javascript syntax to make a copy of the 'squares' state variable
+      const nextSquares = squares.slice();  
+
+      //modify value of the ith square 
+      if(nextSquares[i] == ""){
+        if(xIsNext){
+          nextSquares[i] = "X";
+        } else {
+          nextSquares[i] = "O"; 
+        }
+      }
+
+      //update the state variables
+      setSquares(nextSquares);     
+      setXIsNext(!xIsNext);         
+    }
+   }
 
 
   //return JSX element containing 9 squares
