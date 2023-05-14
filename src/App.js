@@ -18,11 +18,23 @@ export default function Board() {
 
   const [xIsNext, setXIsNext] = useState(true);  
 
+  //check for winner and set status variable
+  let status;
+  let winner = calculateWinner(squares); 
+  if(winner == null){
+    if(xIsNext){
+      status = "X is next";
+    } else {
+      status = "O is next";
+    }
+  } else {
+    status = "The winner is " + winner; 
+  }
 
   //handleClick function which will be passed as a prop onto each square
   function handleClick(i){
-    //only want to handle click if the ith square doesn't already have a value (i.e if its value is "")
-    if(squares[i] == ""){
+    //only want to handle click if the ith square doesn't already have a value (i.e if its value is "") AND there isn't a winner already
+    if(squares[i] == "" && calculateWinner(squares) == null){
       //use javascript syntax to make a copy of the 'squares' state variable
       const nextSquares = squares.slice();  
 
@@ -45,6 +57,7 @@ export default function Board() {
   //return JSX element containing 9 squares
   return( 
   <div>
+    <div className="status">{status}</div>
     <div className="board-row">
       <Square value={squares[0]} onSquareClick={() => handleClick(0)}/>
       <Square value={squares[1]} onSquareClick={() => handleClick(1)}/>
@@ -62,4 +75,25 @@ export default function Board() {
     </div>
   </div>
   );
+}
+
+//function that contains the algorithm for calculating a winner - note that this is pure JS (no react)
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
 }
